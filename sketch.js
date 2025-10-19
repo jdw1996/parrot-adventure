@@ -1,5 +1,5 @@
-const CANVAS_HEIGHT = 500;
-const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 750;
+const CANVAS_WIDTH = 1200;
 const CANVAS_NAME = "gamecanvas";
 
 const UNIT_LENGTH = 50;
