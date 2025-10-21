@@ -5,9 +5,10 @@ const CANVAS_NAME = "gamecanvas";
 const UNIT_LENGTH = 50;
 const GRAVITY = 2;
 
+const PLAYER_JUMP_BOOST = 25;
 const PLAYER_SIZE = UNIT_LENGTH;
 const PLAYER_SPEED_DEFAULT = 10;
-const PLAYER_JUMP_BOOST = 25;
+const PLAYER_TOTAL_ENERGY = 3;
 
 class Player {
   constructor() {
@@ -15,6 +16,7 @@ class Player {
     this.speed = PLAYER_SPEED_DEFAULT;
     this.velocity = createVector(0, 0);
     this.isJumping = true;
+    this.energy = PLAYER_TOTAL_ENERGY;
   }
 
   update() {
@@ -28,6 +30,7 @@ class Player {
       this.posn.y = CANVAS_HEIGHT - PLAYER_SIZE;
       this.velocity.y = 0;
       this.isJumping = false;
+      this.energy = PLAYER_TOTAL_ENERGY;
     }
     if (this.posn.y < 0) {
       this.posn.y = 0;
@@ -52,8 +55,12 @@ class Player {
   }
 
   flap() {
+    if (this.energy === 0) {
+      return;
+    }
     this.isJumping = true;
     this.velocity.y = -PLAYER_JUMP_BOOST;
+    this.energy -= 1;
   }
 }
 
