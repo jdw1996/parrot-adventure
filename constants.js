@@ -1,0 +1,11 @@
+const CANVAS_HEIGHT = 750;
+const CANVAS_WIDTH = 1200;
+const CANVAS_NAME = "gamecanvas";
+
+const UNIT_LENGTH = 50;
+const GRAVITY = 2;
+
+const PLAYER_JUMP_BOOST = 25;
+const PLAYER_SIZE = UNIT_LENGTH;
+const PLAYER_SPEED_DEFAULT = 10;
+const PLAYER_TOTAL_ENERGY = 3;
