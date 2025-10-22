@@ -26,16 +26,7 @@ class Player {
     // Apply player movement and gravity.
     this.posn.add(this.velocity);
     // Don't let the player go out of bounds.
-    if (this.posn.y > CANVAS_HEIGHT - PLAYER_SIZE) {
-      this.posn.y = CANVAS_HEIGHT - PLAYER_SIZE;
-      this.velocity.y = 0;
-      this.isJumping = false;
-      this.energy = PLAYER_TOTAL_ENERGY;
-    }
-    if (this.posn.y < 0) {
-      this.posn.y = 0;
-      this.velocity.y = 0;
-    }
+    this.resolveCollisions();
   }
 
   draw() {
@@ -71,6 +62,19 @@ class Player {
     this.isJumping = true;
     this.velocity.y = -PLAYER_JUMP_BOOST;
     this.energy -= 1;
+  }
+
+  resolveCollisions() {
+    if (this.posn.y > CANVAS_HEIGHT - PLAYER_SIZE) {
+      this.posn.y = CANVAS_HEIGHT - PLAYER_SIZE;
+      this.velocity.y = 0;
+      this.isJumping = false;
+      this.energy = PLAYER_TOTAL_ENERGY;
+    }
+    if (this.posn.y < 0) {
+      this.posn.y = 0;
+      this.velocity.y = 0;
+    }
   }
 
   addInputListeners() {
