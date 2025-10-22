@@ -17,10 +17,10 @@ class Player {
     this.velocity = createVector(0, 0);
     this.isJumping = true;
     this.energy = PLAYER_TOTAL_ENERGY;
+    this.addInputListeners();
   }
 
   update() {
-    this.processInput();
     // Apply gravity.
     this.velocity.y += GRAVITY;
     // Apply player movement and gravity.
@@ -44,14 +44,24 @@ class Player {
     rect(this.posn.x, this.posn.y, PLAYER_SIZE, PLAYER_SIZE);
   }
 
-  processInput() {
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.velocity.x = this.speed;
-    } else if (keyIsDown(LEFT_ARROW)) {
-      this.velocity.x = -this.speed;
-    } else {
-      this.velocity.x = 0;
-    }
+  moveLeft() {
+    this.velocity.x = -this.speed;
+  }
+
+  moveRight() {
+    this.velocity.x = this.speed;
+  }
+
+  stopMoving() {
+    this.velocity.x = 0;
+  }
+
+  isMovingLeft() {
+    return this.velocity.x < 0;
+  }
+
+  isMovingRight() {
+    return this.velocity.x > 0;
   }
 
   flap() {
@@ -62,13 +72,29 @@ class Player {
     this.velocity.y = -PLAYER_JUMP_BOOST;
     this.energy -= 1;
   }
-}
 
-addEventListener("keyup", (event) => {
-  if (event.key === "ArrowUp") {
-    player.flap();
+  addInputListeners() {
+    addEventListener("keyup", (event) => {
+      if (event.key === "ArrowUp" || event.key === " ") {
+        this.flap();
+      }
+      if (event.key === "ArrowRight" && this.isMovingRight()) {
+        this.stopMoving();
+      }
+      if (event.key === "ArrowLeft" && this.isMovingLeft()) {
+        this.stopMoving();
+      }
+    });
+    addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        this.moveLeft();
+      }
+      if (event.key === "ArrowRight") {
+        this.moveRight();
+      }
+    });
   }
-});
+}
 
 function preload() {
   // TODO: Load images.
