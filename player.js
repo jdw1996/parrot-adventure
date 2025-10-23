@@ -55,16 +55,25 @@ class Player {
       this.velocity.y += GRAVITY;
     }
 
+    // If the player isn't moving, we don't have to calculate collisions.
     if (this.velocity.mag() === 0) {
       return;
     }
 
-    // Clamp to top speed
+    // Clamp to top speed.
     this.velocity.x = Math.min(this.velocity.x, PLAYER_SPEED_MAX);
     this.velocity.y = Math.min(this.velocity.y, PLAYER_SPEED_MAX);
 
+    // this.posn is still used for some calculations, so we create a separate
+    // position newPosn which will be assigned to this.posn in the end.
     const newPosn = createVector(this.posn.x, this.posn.y);
     newPosn.add(this.velocity);
+
+    // For each corner, compare the heading of velocity to the heading from
+    // player corner to obstacle corner. This determines whether newPosn needs
+    // to be pushed in the x direction or y direction.
+    // When calling getBlock, we adjust by one pixel to allow for smooth
+    // movement over flat surfaces.
 
     // top-left corner
     const nwBlock = this.map.getBlock(newPosn.x + 1, newPosn.y + 1);
@@ -143,6 +152,7 @@ class Player {
         newPosn.x = seBlock.posn.x - PLAYER_SIZE;
       }
     }
+
     this.posn = newPosn;
   }
 
