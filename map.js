@@ -26,6 +26,8 @@ class Map {
   }
 
   draw() {
+    background("skyblue");
+
     for (const row of this.blocks) {
       for (const block of row) {
         block?.draw();

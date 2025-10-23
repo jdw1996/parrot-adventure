@@ -16,8 +16,6 @@ function setup() {
 }
 
 function draw() {
-  background("skyblue");
-
   map.draw();
 
   player.update();

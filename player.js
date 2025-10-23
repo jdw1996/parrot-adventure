@@ -84,6 +84,7 @@ class Player {
         this.velocity.y = 0;
         newPosn.y = nwBlock.posn.y + UNIT_LENGTH;
       } else {
+        this.velocity.x = 0;
         newPosn.x = nwBlock.posn.x + UNIT_LENGTH;
       }
     }
@@ -102,6 +103,7 @@ class Player {
         this.velocity.y = 0;
         newPosn.y = neBlock.posn.y + UNIT_LENGTH;
       } else {
+        this.velocity.x = 0;
         newPosn.x = neBlock.posn.x - PLAYER_SIZE;
       }
     }
@@ -121,6 +123,7 @@ class Player {
         newPosn.y = swBlock.posn.y - PLAYER_SIZE;
         this.energy = PLAYER_TOTAL_ENERGY;
       } else {
+        this.velocity.x = 0;
         newPosn.x = swBlock.posn.x + UNIT_LENGTH;
       }
     }
@@ -140,6 +143,7 @@ class Player {
         newPosn.y = seBlock.posn.y - PLAYER_SIZE;
         this.energy = PLAYER_TOTAL_ENERGY;
       } else {
+        this.velocity.x = 0;
         newPosn.x = seBlock.posn.x - PLAYER_SIZE;
       }
     }
