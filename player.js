@@ -17,7 +17,7 @@ class Player {
 
   draw() {
     noStroke();
-    fill("red");
+    fill("crimson");
     rect(this.posn.x, this.posn.y, PLAYER_SIZE, PLAYER_SIZE);
   }
 

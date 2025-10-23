@@ -5,7 +5,7 @@ class Obstacle {
 
   draw() {
     noStroke();
-    fill("grey");
+    fill("dimgrey");
     rect(this.posn.x, this.posn.y, UNIT_LENGTH, UNIT_LENGTH);
   }
 
