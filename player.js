@@ -4,12 +4,13 @@ class Player {
     this.posn = createVector(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     this.speed = PLAYER_SPEED_DEFAULT;
     this.velocity = createVector(0, 0);
-    this.isJumping = true;
     this.energy = PLAYER_TOTAL_ENERGY;
     this.addInputListeners();
   }
 
   update() {
+    // Apply gravity.
+    this.applyGravity();
     // Apply velocity and resolve collisions.
     this.applyVelocity();
   }
@@ -44,17 +45,17 @@ class Player {
     if (this.energy === 0) {
       return;
     }
-    this.isJumping = true;
     this.velocity.y = -PLAYER_JUMP_BOOST;
     this.energy -= 1;
   }
 
-  applyVelocity() {
-    // Apply gravity.
-    if (this.isJumping) {
-      this.velocity.y += GRAVITY;
-    }
+  applyGravity() {
+    // Gravity always applies, not just when jumping. Otherwise player can't
+    // fall off ledges.
+    this.velocity.y += GRAVITY;
+  }
 
+  applyVelocity() {
     // If the player isn't moving, we don't have to calculate collisions.
     if (this.velocity.mag() === 0) {
       return;
@@ -124,7 +125,6 @@ class Player {
       if (this.velocity.heading() > swVectorToCorner.heading()) {
         this.velocity.y = 0;
         newPosn.y = swBlock.posn.y - PLAYER_SIZE;
-        this.isJumping = false;
         this.energy = PLAYER_TOTAL_ENERGY;
       } else {
         this.velocity.x = 0;
@@ -145,7 +145,6 @@ class Player {
       if (this.velocity.heading() < seVectorToCorner.heading()) {
         this.velocity.y = 0;
         newPosn.y = seBlock.posn.y - PLAYER_SIZE;
-        this.isJumping = false;
         this.energy = PLAYER_TOTAL_ENERGY;
       } else {
         this.velocity.x = 0;
