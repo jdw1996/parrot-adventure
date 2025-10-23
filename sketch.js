@@ -12,6 +12,7 @@ function setup() {
   background(0);
   map = new Map(LAYOUT);
   player = new Player(map);
+  frame = new Frame();
 }
 
 function draw() {
@@ -21,4 +22,6 @@ function draw() {
 
   player.update();
   player.draw();
+
+  frame.draw();
 }
