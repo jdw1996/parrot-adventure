@@ -56,11 +56,6 @@ class Player {
   }
 
   applyVelocity() {
-    // If the player isn't moving, we don't have to calculate collisions.
-    if (this.velocity.mag() === 0) {
-      return;
-    }
-
     // Clamp to top speed.
     this.velocity.x = Math.min(this.velocity.x, PLAYER_SPEED_MAX);
     this.velocity.y = Math.min(this.velocity.y, PLAYER_SPEED_MAX);
