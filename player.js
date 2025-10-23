@@ -5,6 +5,7 @@ class Player {
     this.speed = PLAYER_SPEED_DEFAULT;
     this.velocity = createVector(0, 0);
     this.energy = PLAYER_TOTAL_ENERGY;
+    this.isReadyToFlap = false;
     this.addInputListeners();
   }
 
@@ -42,7 +43,7 @@ class Player {
   }
 
   flap() {
-    if (this.energy === 0) {
+    if (this.energy === 0 || !this.isReadyToFlap) {
       return;
     }
     this.velocity.y = -PLAYER_JUMP_BOOST;
@@ -148,6 +149,9 @@ class Player {
 
   addInputListeners() {
     addEventListener("keyup", (event) => {
+      if (event.key === "ArrowUp" || event.key === " ") {
+        this.isReadyToFlap = true;
+      }
       if (event.key === "ArrowRight" && this.isMovingRight()) {
         this.stopMoving();
       }
@@ -158,6 +162,7 @@ class Player {
     addEventListener("keydown", (event) => {
       if (event.key === "ArrowUp" || event.key === " ") {
         this.flap();
+        this.isReadyToFlap = false;
       }
       if (event.key === "ArrowLeft") {
         this.moveLeft();
