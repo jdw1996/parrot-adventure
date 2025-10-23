@@ -14,6 +14,8 @@ class Player {
     this.applyGravity();
     // Apply velocity and resolve collisions.
     this.applyVelocity();
+    // Check if player fell off screen.
+    this.checkInChasm();
   }
 
   draw() {
@@ -149,6 +151,17 @@ class Player {
     }
 
     this.posn = newPosn;
+  }
+
+  checkInChasm() {
+    if (this.posn.y > CANVAS_HEIGHT + 2 * UNIT_LENGTH) {
+      this.die();
+    }
+  }
+
+  die() {
+    this.velocity = createVector(0, 0);
+    this.posn = createVector(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
   }
 
   addInputListeners() {
