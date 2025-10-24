@@ -19,7 +19,12 @@ class Map {
   getBlock(xPixel, yPixel) {
     const row = Math.floor(yPixel / UNIT_LENGTH);
     const col = Math.floor(xPixel / UNIT_LENGTH);
-    if (row < this.blocks.length && col < this.blocks[0].length) {
+    if (
+      0 <= row &&
+      row < this.blocks.length &&
+      0 <= col &&
+      col < this.blocks[0].length
+    ) {
       return this.blocks[row][col];
     }
     return null;

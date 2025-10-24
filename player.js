@@ -6,6 +6,8 @@ class Player {
     this.velocity = createVector(0, 0);
     this.energy = PLAYER_TOTAL_ENERGY;
     this.isReadyToFlap = false;
+    this.isMovingLeft = false;
+    this.isMovingRight = false;
     this.addInputListeners();
   }
 
@@ -24,26 +26,6 @@ class Player {
     rect(this.posn.x, this.posn.y, PLAYER_SIZE, PLAYER_SIZE);
   }
 
-  moveLeft() {
-    this.velocity.x = -this.speed;
-  }
-
-  moveRight() {
-    this.velocity.x = this.speed;
-  }
-
-  stopMoving() {
-    this.velocity.x = 0;
-  }
-
-  isMovingLeft() {
-    return this.velocity.x < 0;
-  }
-
-  isMovingRight() {
-    return this.velocity.x > 0;
-  }
-
   flap() {
     if (this.energy === 0 || !this.isReadyToFlap) {
       return;
@@ -59,6 +41,25 @@ class Player {
   }
 
   applyVelocity() {
+    // Apply user input, but only if player isn't against a wall.
+    if (
+      this.isMovingLeft &&
+      !this.map
+        .getBlock(this.posn.x - 1, this.posn.y + PLAYER_SIZE / 2)
+        ?.isSolid()
+    ) {
+      this.velocity.x = -this.speed;
+    } else if (
+      this.isMovingRight &&
+      !this.map
+        .getBlock(this.posn.x + PLAYER_SIZE + 1, this.posn.y + PLAYER_SIZE / 2)
+        ?.isSolid()
+    ) {
+      this.velocity.x = this.speed;
+    } else {
+      this.velocity.x = 0;
+    }
+
     // Clamp to top speed.
     this.velocity.x = Math.min(this.velocity.x, PLAYER_SPEED_MAX);
     this.velocity.y = Math.min(this.velocity.y, PLAYER_SPEED_MAX);
@@ -169,11 +170,11 @@ class Player {
       if (event.key === "ArrowUp" || event.key === " ") {
         this.isReadyToFlap = true;
       }
-      if (event.key === "ArrowRight" && this.isMovingRight()) {
-        this.stopMoving();
+      if (event.key === "ArrowRight") {
+        this.isMovingRight = false;
       }
-      if (event.key === "ArrowLeft" && this.isMovingLeft()) {
-        this.stopMoving();
+      if (event.key === "ArrowLeft" && this.isMovingLeft) {
+        this.isMovingLeft = false;
       }
     });
     addEventListener("keydown", (event) => {
@@ -182,10 +183,12 @@ class Player {
         this.isReadyToFlap = false;
       }
       if (event.key === "ArrowLeft") {
-        this.moveLeft();
+        this.isMovingLeft = true;
+        this.isMovingRight = false;
       }
       if (event.key === "ArrowRight") {
-        this.moveRight();
+        this.isMovingRight = true;
+        this.isMovingLeft = false;
       }
     });
   }
