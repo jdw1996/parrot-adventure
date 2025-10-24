@@ -9,6 +9,8 @@ function setup() {
   canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   canvas.parent(CANVAS_NAME);
 
+  frameRate(30);
+
   background(0);
   map = new Map(LAYOUT);
   player = new Player(map);
